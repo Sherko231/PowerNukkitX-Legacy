@@ -105,7 +105,11 @@ public record CustomItemDefinition(String identifier, CompoundTag nbt) {
     }
 
     public String getTexture() {
-        return this.nbt.getCompound("components").getCompound("item_properties").getCompound("minecraft:icon").getString("texture");
+        return this.nbt.getCompound("components")
+                .getCompound("item_properties")
+                .getCompound("minecraft:icon")
+                .getCompound("textures")
+                .getString("default");
     }
 
     public int getRuntimeId() {
@@ -131,7 +135,7 @@ public record CustomItemDefinition(String identifier, CompoundTag nbt) {
             this.nbt.getCompound("components")
                     .getCompound("item_properties")
                     .getCompound("minecraft:icon")
-                    .putString("texture", customItem.getTextureName());
+                    .putCompound("textures", new CompoundTag().putString("default", customItem.getTextureName()));
 
             //定义显示名
             if (item.getName() != null && !item.getName().equals(Item.UNKNOWN_STR)) {
